@@ -1,0 +1,36 @@
+{
+  reportDir domain/target/detangled
+  searchPaths
+  [
+    ./domain/target/kotlin-compiler-domain-0.1.0.jar
+  ]
+  level 2
+  startsWith
+  {
+    include
+    [
+      [
+        com
+        seanshubin
+        kotlin
+        compiler
+      ]
+    ]
+    exclude []
+    drop
+    [
+      [
+        com
+        seanshubin
+        kotlin
+        compiler
+      ]
+    ]
+  }
+  ignoreFiles []
+  canFailBuild true
+  ignoreJavadoc true
+  logTiming true
+  logEffectiveConfiguration true
+  allowedInCycle domain/detangler-allowed-in-cycle.txt
+}
