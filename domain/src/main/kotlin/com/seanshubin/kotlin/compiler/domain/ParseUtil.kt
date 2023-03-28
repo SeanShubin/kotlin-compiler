@@ -9,11 +9,11 @@ object ParseUtil {
         val list = mutableListOf<Tree<T>>()
         while (lastSuccess) {
             when (val result = parser.parse(currentCursor)) {
-                is Result.Success -> {
+                is ParseResult.Success -> {
                     list.add(result.tree)
                     currentCursor = result.current
                 }
-                is Result.Failure -> {
+                is ParseResult.Failure -> {
                     lastSuccess = false
                 }
             }
@@ -29,26 +29,26 @@ object ParseUtil {
         val list = mutableListOf<Tree<T>>()
         var currentCursor = cursor
         val firstResult = outer.parse(cursor)
-        var lastSuccess = firstResult is Result.Success
-        if (firstResult is Result.Success) {
+        var lastSuccess = firstResult is ParseResult.Success
+        if (firstResult is ParseResult.Success) {
             list.add(firstResult.tree)
             currentCursor = firstResult.current
         }
         while (lastSuccess) {
             when (val betweenResult = inner.parse(currentCursor)) {
-                is Result.Success -> {
+                is ParseResult.Success -> {
                     when (val expressionResult = outer.parse(betweenResult.current)) {
-                        is Result.Success -> {
+                        is ParseResult.Success -> {
                             list.add(betweenResult.tree)
                             list.add(expressionResult.tree)
                             currentCursor = expressionResult.current
                         }
-                        is Result.Failure -> {
+                        is ParseResult.Failure -> {
                             lastSuccess = false
                         }
                     }
                 }
-                is Result.Failure -> {
+                is ParseResult.Failure -> {
                     lastSuccess = false
                 }
             }

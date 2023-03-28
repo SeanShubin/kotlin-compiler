@@ -36,4 +36,14 @@ class CharCursorTest {
         assertEquals('c', cursorC1.value)
         assertEquals('c', cursorC2.value)
     }
+
+    @Test
+    fun filter(){
+        val s = "abcaba"
+        val cursor = s.cursor().filter { it != 'a' }
+        val actual = cursor.reifyAll().joinToString("")
+        val expected = "bcb"
+
+        assertEquals(expected, actual)
+    }
 }

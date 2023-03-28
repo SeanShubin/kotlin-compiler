@@ -5,13 +5,13 @@ import com.seanshubin.kotlin.compiler.domain.ParseResult
 import com.seanshubin.kotlin.compiler.domain.TopAssembler
 import com.seanshubin.kotlin.compiler.domain.TopParser
 
-class TokenIterator(
-    private val start: Cursor<Char>,
-    private val parser: TopParser<Char>,
-    private val assembler: TopAssembler<Char, Token>
-) : Iterator<Token> {
-    private var current: Cursor<Char> = start
-    private var value: Token? = null
+class ExpressionIterator(
+    private val start: Cursor<Token>,
+    private val parser: TopParser<Token>,
+    private val assembler: TopAssembler<Token, Expression>
+) : Iterator<Expression> {
+    private var current: Cursor<Token> = start
+    private var value: Expression? = null
 
     init {
         parseNext()
@@ -19,7 +19,7 @@ class TokenIterator(
 
     override fun hasNext(): Boolean = value != null
 
-    override fun next(): Token {
+    override fun next(): Expression {
         val oldValue = value
         return if (oldValue == null) {
             throw RuntimeException("no more elements")
@@ -30,7 +30,7 @@ class TokenIterator(
     }
 
     private fun parseNext() {
-        val result = parser.parse("token", current)
+        val result = parser.parse("expression", current)
         when (result) {
             is ParseResult.Success -> {
                 current = result.current
@@ -43,7 +43,7 @@ class TokenIterator(
         }
     }
 
-    private fun ensureCursorIsAtEnd(result: ParseResult.Failure<Char>) {
+    private fun ensureCursorIsAtEnd(result: ParseResult.Failure<Token>) {
         if (current.value != null) {
             val remain = current.reifyAll().joinToString("")
             val message = listOf(result.message, "remain: '$remain'").joinToString("\n")
@@ -52,10 +52,10 @@ class TokenIterator(
     }
 
     companion object {
-        fun fromCharCursor(cursor: Cursor<Char>): TokenIterator {
-            val parser = TokenTopParser(TokenParserRepository.map)
-            val assembler = TokenTopAssembler(TokenAssemblerRepository.map)
-            return TokenIterator(cursor, parser, assembler)
+        fun fromTokenCursor(cursor: Cursor<Token>): ExpressionIterator {
+            val parser = ExpressionTopParser(ExpressionParserRepository.map)
+            val assembler = ExpressionTopAssembler(ExpressionAssemblerRepository.map)
+            return ExpressionIterator(cursor, parser, assembler)
         }
     }
 }

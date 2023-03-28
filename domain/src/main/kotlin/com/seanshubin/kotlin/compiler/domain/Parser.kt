@@ -4,5 +4,5 @@ import com.seanshubin.kotlin.compiler.cursor.Cursor
 
 interface Parser<T> {
     val name: String
-    fun parse(start: Cursor<T>): Result<T>
+    fun parse(start: Cursor<T>): ParseResult<T>
 }

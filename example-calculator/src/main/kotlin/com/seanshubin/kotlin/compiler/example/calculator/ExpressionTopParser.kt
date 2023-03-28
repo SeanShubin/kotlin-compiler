@@ -5,9 +5,9 @@ import com.seanshubin.kotlin.compiler.domain.Parser
 import com.seanshubin.kotlin.compiler.domain.ParseResult
 import com.seanshubin.kotlin.compiler.domain.TopParser
 
-class TokenTopParser(
-    private val parserMap: Map<String, Parser<Char>>
-) : TopParser<Char> {
-    override fun parse(name: String, cursor: Cursor<Char>): ParseResult<Char> =
+class ExpressionTopParser(
+    private val parserMap: Map<String, Parser<Token>>
+) : TopParser<Token> {
+    override fun parse(name: String, cursor: Cursor<Token>): ParseResult<Token> =
         parserMap.getValue(name).parse(cursor)
 }

@@ -11,9 +11,9 @@ object TokenParserRepository {
     val minus = ValueOfParser("minus", '-')
     val times = ValueOfParser("times", '*')
     val divide = ValueOfParser("divide", '/')
-    val whitespace = ValueOfParser<Char>("whitespace", ' ')
-    val whitespaceBlock = OneOrMoreParser<Char>("whitespace-block", whitespace)
-    val token: Parser<Char> = OneOfParser<Char>(
+    val whitespace = ValueOfParser("whitespace", ' ')
+    val whitespaceBlock = OneOrMoreParser("whitespace-block", whitespace)
+    val token: Parser<Char> = OneOfParser(
         "token",
         openParen,
         closeParen,

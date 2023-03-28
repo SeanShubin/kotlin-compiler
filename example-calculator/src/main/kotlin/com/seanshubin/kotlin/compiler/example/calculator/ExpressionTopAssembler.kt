@@ -4,9 +4,9 @@ import com.seanshubin.kotlin.compiler.domain.Assembler
 import com.seanshubin.kotlin.compiler.domain.TopAssembler
 import com.seanshubin.kotlin.compiler.domain.Tree
 
-class TokenTopAssembler(
-    private val assemblerMap: Map<String, Assembler<Char, Token>>
-) : TopAssembler<Char, Token> {
-    override fun assemble(tree: Tree<Char>): Token =
+class ExpressionTopAssembler(
+    private val assemblerMap: Map<String, Assembler<Token, Expression>>
+) : TopAssembler<Token, Expression> {
+    override fun assemble(tree: Tree<Token>): Expression =
         assemblerMap.getValue(tree.name).assemble(assemblerMap::getValue, tree)
 }

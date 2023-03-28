@@ -1,5 +1,7 @@
 package com.seanshubin.kotlin.compiler.cursor
 
+import java.util.function.BiPredicate
+
 interface Cursor<T> {
     val value: T?
     val next: Cursor<T>
@@ -14,4 +16,5 @@ interface Cursor<T> {
         }
         return list
     }
+    fun filter(predicate: (T)->Boolean):Cursor<T> = FilteringCursor(this, predicate)
 }
