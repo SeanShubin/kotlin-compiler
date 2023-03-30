@@ -7,9 +7,9 @@ import com.seanshubin.kotlin.compiler.example.calculator.ExpressionCompiler.toEx
 object EntryPoint {
     @JvmStatic
     fun main(args: Array<String>) {
-//        complexSample()
+        complexSample()
 //        simpleSample()
-        factorSample()
+//        factorSample()
     }
 
     private fun simpleSample(){
@@ -25,8 +25,9 @@ object EntryPoint {
     }
     private fun complexSample(){
         val input = "((1 + 2) * 3 + 8 / (3 + 1) - 1) / 5 - 1"
-        val result = ExpressionTopAssembler.eval(input)
-        println(result)
+        ExpressionTopParser.parse("expression", input).toLines().forEach(::println)
+//        val result = ExpressionTopAssembler.eval(input)
+//        println(result)
     }
     private fun factorSample(){
         val input = "2 * 3 * 4 / 2 * 5 / 3"
