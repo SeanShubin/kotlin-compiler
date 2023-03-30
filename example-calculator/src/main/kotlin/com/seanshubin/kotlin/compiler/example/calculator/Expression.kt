@@ -15,6 +15,14 @@ interface Expression {
         override fun toString(): String = "Minus"
         override fun operation(first: Int, second: Int): Int = first - second
     }
+    object Times:Operator {
+        override fun toString(): String = "Times"
+        override fun operation(first: Int, second: Int): Int = first * second
+    }
+    object Divide:Operator {
+        override fun toString(): String = "Divide"
+        override fun operation(first: Int, second: Int): Int = first / second
+    }
     data class OperatorNumber(val operator:Operator, val number:Number):Expression {
         override fun toString(): String = "$operator $number"
     }

@@ -1,12 +1,25 @@
 package com.seanshubin.kotlin.compiler.example.calculator
 
 import com.seanshubin.kotlin.compiler.domain.Assembler
+import com.seanshubin.kotlin.compiler.domain.ParseResult
 import com.seanshubin.kotlin.compiler.domain.TopAssembler
 import com.seanshubin.kotlin.compiler.domain.Tree
+import com.seanshubin.kotlin.compiler.example.calculator.TokenCompiler.toTokenCursor
 
-class ExpressionTopAssembler(
-    private val assemblerMap: Map<String, Assembler<Token, Expression>>
-) : TopAssembler<Token, Expression> {
+object ExpressionTopAssembler : TopAssembler<Token, Expression> {
+    fun eval(s:String):Expression {
+        when(val result = ExpressionTopParser.parse("expression", s)){
+            is ParseResult.Success -> {
+                return assemble(result.tree)
+            }
+            is ParseResult.Failure -> {
+                val messageHeader = "Unable to evaluate '$s'"
+                val messageLines = listOf(messageHeader) + result.toLines()
+                val message = messageLines.joinToString("\n")
+                throw RuntimeException(message)
+            }
+        }
+    }
     override fun assemble(tree: Tree<Token>): Expression =
-        assemblerMap.getValue(tree.name).assemble(assemblerMap::getValue, tree)
+        ExpressionAssemblerRepository.map.getValue(tree.name).assemble(ExpressionAssemblerRepository.map::getValue, tree)
 }
