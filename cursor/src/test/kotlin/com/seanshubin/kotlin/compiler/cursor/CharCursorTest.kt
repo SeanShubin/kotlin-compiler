@@ -46,4 +46,16 @@ class CharCursorTest {
 
         assertEquals(expected, actual)
     }
+
+    @Test
+    fun between(){
+        val s = "abcaba"
+        val cursor = s.cursor()
+        val oneIn = cursor.next
+        val fourIn = cursor.next.next.next.next
+        val actual = oneIn.between(fourIn).joinToString("")
+        val expected = "bca"
+
+        assertEquals(expected, actual)
+    }
 }

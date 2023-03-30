@@ -16,5 +16,15 @@ interface Cursor<T> {
         }
         return list
     }
+    fun between(other:Cursor<T>):List<T>{
+        val list = mutableListOf<T>()
+        var current = this
+        while(current != other){
+            val currentValue = current.value ?: throw RuntimeException("Reached end of this cursor before finding other cursor")
+            list.add(currentValue)
+            current = current.next
+        }
+        return list
+    }
     fun filter(predicate: (T)->Boolean):Cursor<T> = FilteringCursor(this, predicate)
 }

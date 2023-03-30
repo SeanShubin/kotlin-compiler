@@ -53,7 +53,7 @@ class ExpressionIterator(
 
     companion object {
         fun fromTokenCursor(cursor: Cursor<Token>): ExpressionIterator {
-            val parser = ExpressionTopParser(ExpressionParserRepository.map)
+            val parser = ExpressionTopParser
             val assembler = ExpressionTopAssembler(ExpressionAssemblerRepository.map)
             return ExpressionIterator(cursor, parser, assembler)
         }

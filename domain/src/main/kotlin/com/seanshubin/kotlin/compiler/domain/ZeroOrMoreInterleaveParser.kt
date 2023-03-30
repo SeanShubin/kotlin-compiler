@@ -8,8 +8,8 @@ class ZeroOrMoreInterleaveParser<T>(
     private val outer: Parser<T>,
     private val inner: Parser<T>
 ) : Parser<T> {
-    override fun parse(start: Cursor<T>): ParseResult<T> {
-        val (current, list) = consumeManyInterleave(start, outer, inner)
-        return ParseResult.Success(listOf(name), start, current, Tree.Branch(name, list))
+    override fun parse(lookup:(String)->Parser<T>, start: Cursor<T>): ParseResult<T> {
+        val (current, list, history) = consumeManyInterleave(lookup, start, outer, inner)
+        return ParseResult.Success(history, listOf(name), start, current, Tree.Branch(name, list))
     }
 }

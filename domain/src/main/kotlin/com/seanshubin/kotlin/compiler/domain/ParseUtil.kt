@@ -3,41 +3,53 @@ package com.seanshubin.kotlin.compiler.domain
 import com.seanshubin.kotlin.compiler.cursor.Cursor
 
 object ParseUtil {
-    fun <T> parseMany(cursor: Cursor<T>, parser: Parser<T>): Pair<Cursor<T>, List<Tree<T>>> {
+    fun <T> parseMany(lookup:(String)->Parser<T>, cursor: Cursor<T>, parser: Parser<T>): CursorTreesHistory<T> {
         var currentCursor = cursor
         var lastSuccess = true
         val list = mutableListOf<Tree<T>>()
+        val history = mutableListOf<ParseResult<T>>()
         while (lastSuccess) {
-            when (val result = parser.parse(currentCursor)) {
+            val result = parser.parse(lookup, currentCursor)
+            history.add(result)
+            when (result) {
                 is ParseResult.Success -> {
+                    history.add(result)
                     list.add(result.tree)
                     currentCursor = result.current
                 }
                 is ParseResult.Failure -> {
+                    history.add(result)
                     lastSuccess = false
                 }
             }
         }
-        return Pair(currentCursor, list)
+        return CursorTreesHistory<T>(currentCursor, list, history)
     }
 
     fun <T> consumeManyInterleave(
+        lookup:(String)->Parser<T>,
         cursor: Cursor<T>,
         outer: Parser<T>,
         inner: Parser<T>
-    ): Pair<Cursor<T>, List<Tree<T>>> {
+    ): CursorTreesHistory<T> {
         val list = mutableListOf<Tree<T>>()
         var currentCursor = cursor
-        val firstResult = outer.parse(cursor)
+        val history = mutableListOf<ParseResult<T>>()
+        val firstResult = outer.parse(lookup, cursor)
+        history.add(firstResult)
         var lastSuccess = firstResult is ParseResult.Success
         if (firstResult is ParseResult.Success) {
             list.add(firstResult.tree)
             currentCursor = firstResult.current
         }
         while (lastSuccess) {
-            when (val betweenResult = inner.parse(currentCursor)) {
+            val betweenResult = inner.parse(lookup, currentCursor)
+            history.add(betweenResult)
+            when (betweenResult) {
                 is ParseResult.Success -> {
-                    when (val expressionResult = outer.parse(betweenResult.current)) {
+                    val expressionResult = outer.parse(lookup, betweenResult.current)
+                    history.add(expressionResult)
+                    when (expressionResult) {
                         is ParseResult.Success -> {
                             list.add(betweenResult.tree)
                             list.add(expressionResult.tree)
@@ -49,10 +61,11 @@ object ParseUtil {
                     }
                 }
                 is ParseResult.Failure -> {
+                    history.add(betweenResult)
                     lastSuccess = false
                 }
             }
         }
-        return Pair(currentCursor, list)
+        return CursorTreesHistory<T>(currentCursor, list, history)
     }
 }

@@ -9,5 +9,5 @@ class TokenTopParser(
     private val parserMap: Map<String, Parser<Char>>
 ) : TopParser<Char> {
     override fun parse(name: String, cursor: Cursor<Char>): ParseResult<Char> =
-        parserMap.getValue(name).parse(cursor)
+        parserMap.getValue(name).parse(parserMap::getValue, cursor)
 }

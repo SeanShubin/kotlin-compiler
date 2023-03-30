@@ -15,14 +15,14 @@ object TokenParserRepository {
     val whitespaceBlock = OneOrMoreParser("whitespace-block", whitespace)
     val token: Parser<Char> = OneOfParser(
         "token",
-        openParen,
-        closeParen,
-        times,
-        divide,
-        plus,
-        minus,
-        whitespaceBlock,
-        number
+        "open-paren",
+        "close-paren",
+        "times",
+        "divide",
+        "plus",
+        "minus",
+        "whitespace-block",
+        "number"
     )
     val map = listOf(
         openParen,
