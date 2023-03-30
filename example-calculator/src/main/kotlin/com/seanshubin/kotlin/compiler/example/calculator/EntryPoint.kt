@@ -28,13 +28,6 @@ object EntryPoint {
         tokenCursor.reifyAll().forEach(::println)
         val parser = ExpressionTopParser
         val result = parser.parse("expression", input)
-        when(result){
-            is ParseResult.Success -> {
-                result.tree.toLines().forEach(::println)
-            }
-            is ParseResult.Failure ->{
-                result.messageWithHistory().forEach(::println)
-            }
-        }
+        result.toLines().forEach(::println)
     }
 }

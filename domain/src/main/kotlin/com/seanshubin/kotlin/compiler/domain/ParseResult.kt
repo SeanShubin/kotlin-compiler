@@ -10,6 +10,7 @@ sealed interface ParseResult<T> {
             child.messageWithHistory().map { "  $it"}
         }
     }
+    fun toLines():List<String>
     data class Success<T>(
         override val history: List<ParseResult<T>>,
         val path: List<String>,
@@ -22,6 +23,8 @@ sealed interface ParseResult<T> {
             val pathString = path.joinToString(",")
             return "success $pathString: $listString"
         }
+
+        override fun toLines(): List<String> = tree.toLines()
     }
 
     data class Failure<T>(
@@ -35,5 +38,7 @@ sealed interface ParseResult<T> {
             val pathString = path.joinToString(",")
             return "failure $pathString: $currentString"
         }
+
+        override fun toLines(): List<String> = messageWithHistory()
     }
 }
