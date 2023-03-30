@@ -7,10 +7,10 @@ class ExpressionOperatorAssembler(override val name: String) : Assembler<Token, 
     override fun assemble(lookupByName: (String) -> Assembler<Token, Expression>, tree: Tree<Token>): Expression {
         tree as Tree.Leaf
         return when (tree.value) {
-            Token.Plus -> Expression.Plus
-            Token.Minus -> Expression.Minus
-            Token.Times -> Expression.Times
-            Token.Divide -> Expression.Divide
+            Token.Plus -> Expression.PlusOperator
+            Token.Minus -> Expression.MinusOperator
+            Token.Times -> Expression.TimesOperator
+            Token.Divide -> Expression.DivideOperator
             else -> throw RuntimeException("Operator not found '${tree.value}'")
         }
     }

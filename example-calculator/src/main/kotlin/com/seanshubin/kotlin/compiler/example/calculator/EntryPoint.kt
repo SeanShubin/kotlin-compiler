@@ -26,8 +26,8 @@ object EntryPoint {
     private fun complexSample(){
         val input = "((1 + 2) * 3 + 8 / (3 + 1) - 1) / 5 - 1"
         ExpressionTopParser.parse("expression", input).toLines().forEach(::println)
-//        val result = ExpressionTopAssembler.eval(input)
-//        println(result)
+        val result = ExpressionTopAssembler.eval(input)
+        println(result.eval())
     }
     private fun factorSample(){
         val input = "2 * 3 * 4 / 2 * 5 / 3"

@@ -3,30 +3,26 @@ package com.seanshubin.kotlin.compiler.example.calculator
 import com.seanshubin.kotlin.compiler.domain.Assembler
 
 object ExpressionAssemblerRepository {
-    val numberAssembler = ExpressionNumberAssembler("number")
-//    val operatorNumberListAssembler = ExpressionOperatorNumberListAssembler("operator-number-list")
-//    val operatorNumberAssembler = ExpressionOperatorNumberAssembler("operator-number")
-//    val expressionAssembler = ExpressionAssembler("expression")
-//    val operatorAssembler = ExpressionOperatorAssembler("operator")
-    val plusAssembler = ExpressionOperatorAssembler("plus")
-    val minusAssembler = ExpressionOperatorAssembler("minus")
-    val timesAssembler = ExpressionOperatorAssembler("times")
-    val divideAssembler = ExpressionOperatorAssembler("divide")
-    val expressionAssembler = ExpressionAssembler("expression")
+    val subtractAssembler = ExpressionOperationAssembler("subtract")
+    val divideAssembler = ExpressionOperationAssembler("divide")
     val expressionInParenthesisAssembler = ExpressionInParenthesisAssembler("expression-in-parenthesis")
-    val factorAssembler = ExpressionFactorAssembler("factor")
+    val addAssembler = ExpressionOperationAssembler("add")
+    val multiplyAssembler = ExpressionOperationAssembler("multiply")
+    val numberAssembler = ExpressionNumberAssembler("number")
+    val plusOperatorAssembler = ExpressionOperatorAssembler("plus-operator")
+    val minusOperatorAssembler = ExpressionOperatorAssembler("minus-operator")
+    val timesOperatorAssembler = ExpressionOperatorAssembler("times-operator")
+    val divideOperatorAssembler = ExpressionOperatorAssembler("divide-operator")
     val map = listOf<Assembler<Token, Expression>>(
-        expressionAssembler,
-        factorAssembler,
+        subtractAssembler,
+        divideAssembler,
         expressionInParenthesisAssembler,
+        addAssembler,
+        multiplyAssembler,
         numberAssembler,
-        plusAssembler,
-        minusAssembler,
-        timesAssembler,
-        divideAssembler
-//        operatorNumberListAssembler,
-//        expressionAssembler,
-//        operatorNumberAssembler,
-//        operatorAssembler
+        plusOperatorAssembler,
+        minusOperatorAssembler,
+        timesOperatorAssembler,
+        divideOperatorAssembler
     ).associateBy { it.name }
 }

@@ -1,32 +1,40 @@
 package com.seanshubin.kotlin.compiler.example.calculator
 
 interface Expression {
-    interface Operator:Expression {
-        fun operation(first:Int, second:Int):Int
+    fun eval():Int {
+        throw UnsupportedOperationException("not implemented")
     }
     data class Number(val x: Int) : Expression {
         override fun toString(): String = "Number($x)"
+        override fun eval(): Int = x
     }
-    object Plus:Operator {
-        override fun toString(): String = "Plus"
-        override fun operation(first: Int, second: Int): Int = first + second
+    object PlusOperator:Expression{
+        override fun toString(): String = "PlusOperator"
     }
-    object Minus:Operator {
-        override fun toString(): String = "Minus"
-        override fun operation(first: Int, second: Int): Int = first - second
+    object MinusOperator:Expression{
+        override fun toString(): String = "MinusOperator"
     }
-    object Times:Operator {
-        override fun toString(): String = "Times"
-        override fun operation(first: Int, second: Int): Int = first * second
+    object TimesOperator:Expression{
+        override fun toString(): String = "TimesOperator"
     }
-    object Divide:Operator {
+    object DivideOperator:Expression{
+        override fun toString(): String = "DivideOperator"
+    }
+
+    data class Add(val first: Expression, val second: Expression):Expression {
+        override fun toString(): String = "Add"
+        override fun eval(): Int = first.eval() + second.eval()
+    }
+    data class Subtract(val first: Expression, val second: Expression):Expression {
+        override fun toString(): String = "Subtract"
+        override fun eval(): Int = first.eval() - second.eval()
+    }
+    data class Multiply(val first: Expression, val second: Expression):Expression {
+        override fun toString(): String = "Multiply"
+        override fun eval(): Int = first.eval() * second.eval()
+    }
+    data class Divide(val first: Expression, val second: Expression):Expression {
         override fun toString(): String = "Divide"
-        override fun operation(first: Int, second: Int): Int = first / second
-    }
-    data class OperatorNumber(val operator:Operator, val number:Number):Expression {
-        override fun toString(): String = "$operator $number"
-    }
-    data class OperatorNumberList(val list:List<OperatorNumber>):Expression {
-        override fun toString(): String = list.joinToString(", ", "[", "]")
+        override fun eval(): Int = first.eval() / second.eval()
     }
 }
