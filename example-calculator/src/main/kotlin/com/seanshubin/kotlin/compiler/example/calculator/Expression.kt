@@ -1,26 +1,11 @@
 package com.seanshubin.kotlin.compiler.example.calculator
 
 interface Expression {
-    fun eval():Int {
-        throw UnsupportedOperationException("not implemented")
-    }
+    fun eval():Int
     data class Number(val x: Int) : Expression {
         override fun toString(): String = "Number($x)"
         override fun eval(): Int = x
     }
-    object PlusOperator:Expression{
-        override fun toString(): String = "PlusOperator"
-    }
-    object MinusOperator:Expression{
-        override fun toString(): String = "MinusOperator"
-    }
-    object TimesOperator:Expression{
-        override fun toString(): String = "TimesOperator"
-    }
-    object DivideOperator:Expression{
-        override fun toString(): String = "DivideOperator"
-    }
-
     data class Add(val first: Expression, val second: Expression):Expression {
         override fun toString(): String = "Add)"
         override fun eval(): Int = first.eval() + second.eval()
@@ -42,7 +27,7 @@ interface Expression {
         override fun eval(): Int = x.eval()
     }
     data class Negative(val x: Expression):Expression {
-        override fun toString(): String = "Positive"
+        override fun toString(): String = "Negative"
         override fun eval(): Int = -x.eval()
     }
 }
