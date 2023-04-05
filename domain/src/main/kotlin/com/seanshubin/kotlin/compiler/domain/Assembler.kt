@@ -7,7 +7,7 @@ interface Assembler<SourceType, ConstructedType> {
         tree: Tree<SourceType>
     ): ConstructedType
 
-    fun part(
+    fun constructAt(
         lookupByName: (String) -> Assembler<SourceType, ConstructedType>,
         tree: Tree<SourceType>,
         index: Int
@@ -16,6 +16,15 @@ interface Assembler<SourceType, ConstructedType> {
         val treePart = tree.list[index]
         val part = lookupByName(treePart.name).assemble(lookupByName, treePart)
         return part
+    }
+
+    fun sourceAt(
+        tree: Tree<SourceType>,
+        index: Int
+    ): SourceType {
+        tree as Tree.Branch
+        val treePart = tree.list[index] as Tree.Leaf
+        return treePart.value
     }
 
     fun branchParts(

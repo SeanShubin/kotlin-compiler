@@ -22,7 +22,7 @@ interface Expression {
     }
 
     data class Add(val first: Expression, val second: Expression):Expression {
-        override fun toString(): String = "Add"
+        override fun toString(): String = "Add)"
         override fun eval(): Int = first.eval() + second.eval()
     }
     data class Subtract(val first: Expression, val second: Expression):Expression {
@@ -36,5 +36,13 @@ interface Expression {
     data class Divide(val first: Expression, val second: Expression):Expression {
         override fun toString(): String = "Divide"
         override fun eval(): Int = first.eval() / second.eval()
+    }
+    data class Positive(val x: Expression):Expression {
+        override fun toString(): String = "Positive"
+        override fun eval(): Int = x.eval()
+    }
+    data class Negative(val x: Expression):Expression {
+        override fun toString(): String = "Positive"
+        override fun eval(): Int = -x.eval()
     }
 }

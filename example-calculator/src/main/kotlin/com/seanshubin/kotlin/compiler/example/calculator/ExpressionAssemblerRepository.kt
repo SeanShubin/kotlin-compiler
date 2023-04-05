@@ -15,6 +15,8 @@ object ExpressionAssemblerRepository {
     val minusOperatorAssembler = ExpressionOperatorAssembler("minus-operator")
     val timesOperatorAssembler = ExpressionOperatorAssembler("times-operator")
     val divideOperatorAssembler = ExpressionOperatorAssembler("divide-operator")
+    val signFactorAssembler = SignFactorAssembler("sign-factor")
+    val termOperatorAssembler = TermOperatorAssembler("term-operator")
     val map = listOf<Assembler<Token, Expression>>(
         expressionAssembler,
         termAssembler,
@@ -27,6 +29,8 @@ object ExpressionAssemblerRepository {
         plusOperatorAssembler,
         minusOperatorAssembler,
         timesOperatorAssembler,
-        divideOperatorAssembler
+        divideOperatorAssembler,
+        signFactorAssembler,
+        termOperatorAssembler
     ).associateBy { it.name }
 }
