@@ -3,6 +3,8 @@ package com.seanshubin.kotlin.compiler.example.calculator
 import com.seanshubin.kotlin.compiler.domain.Assembler
 
 object ExpressionAssemblerRepository {
+    val expressionAssembler = ExpressionAssembler("expression")
+    val termAssembler = TermAssembler("term")
     val subtractAssembler = ExpressionOperationAssembler("subtract")
     val divideAssembler = ExpressionOperationAssembler("divide")
     val expressionInParenthesisAssembler = ExpressionInParenthesisAssembler("expression-in-parenthesis")
@@ -14,6 +16,8 @@ object ExpressionAssemblerRepository {
     val timesOperatorAssembler = ExpressionOperatorAssembler("times-operator")
     val divideOperatorAssembler = ExpressionOperatorAssembler("divide-operator")
     val map = listOf<Assembler<Token, Expression>>(
+        expressionAssembler,
+        termAssembler,
         subtractAssembler,
         divideAssembler,
         expressionInParenthesisAssembler,

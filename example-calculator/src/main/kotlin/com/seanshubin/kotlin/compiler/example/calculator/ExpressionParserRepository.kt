@@ -3,61 +3,32 @@ package com.seanshubin.kotlin.compiler.example.calculator
 import com.seanshubin.kotlin.compiler.domain.*
 
 object ExpressionParserRepository {
-    val expression = OneOfParser<Token>(
+    val expression = OneOrMoreInterleave<Token>(
         "expression",
-        "add",
-        "subtract",
-        "term"
-    )
-    val add = SequenceParser<Token>(
-        "add",
         "term",
-        "plus-operator",
-        "expression"
+        "term-operator"
     )
-    val subtract = SequenceParser<Token>(
-        "subtract",
+    val term = OneOrMoreInterleave<Token>(
         "term",
-        "minus-operator",
-        "expression"
-    )
-    val term = OneOfParser<Token>(
-        "term",
-        "multiply",
-        "divide",
-        "factor"
-    )
-    val plusOperator = ValueOfParser<Token>("plus-operator", Token.Plus)
-    val multiply = SequenceParser<Token>(
-        "multiply",
         "factor",
-        "times-operator",
-        "term"
-    )
-    val divide = SequenceParser<Token>(
-        "divide",
-        "factor",
-        "divide-operator",
-        "term"
+        "factor-operator"
     )
     val factor = OneOfParser<Token>(
         "factor",
         "number",
         "expression-in-parenthesis",
-        "positive",
-        "negative"
+        "sign-factor"
     )
-    val positive = SequenceParser<Token>(
-        "positive",
-        "plus-operator",
-        "factor"
+    val termOperator = OneOfValueParser<Token>(
+        "term-operator",
+        Token.Plus,
+        Token.Minus
     )
-    val negative = SequenceParser<Token>(
-        "negative",
-        "minus-operator",
-        "factor"
+    val factorOperator = OneOfValueParser<Token>(
+        "factor-operator",
+        Token.Times,
+        Token.Divide
     )
-    val timesOperator = ValueOfParser<Token>("times-operator", Token.Times)
     val number = TypeOfParser<Token>("number", Token.Number::class.java)
     val expressionInParenthesis = SequenceParser<Token>(
         "expression-in-parenthesis",
@@ -67,33 +38,21 @@ object ExpressionParserRepository {
     )
     val openParen = ValueOfParser<Token>("open-paren", Token.OpenParen)
     val closeParen = ValueOfParser<Token>("close-paren", Token.CloseParen)
-    val divideOperator = ValueOfParser<Token>("divide-operator", Token.Divide)
-    val minusOperator =  ValueOfParser<Token>("minus-operator", Token.Minus)
-
+    val signFactor = SequenceParser<Token>(
+        "sign-factor",
+        "term-operator",
+        "factor"
+    )
     val map = listOf(
         expression,
-        add,
-        subtract,
         term,
-        plusOperator,
-        multiply,
-        divide,
         factor,
-        timesOperator,
         number,
         expressionInParenthesis,
         openParen,
         closeParen,
-        divideOperator,
-        minusOperator,
-        positive,
-        negative
+        termOperator,
+        factorOperator,
+        signFactor
     ).associateBy { it.name }
 }
-/*
-expression: term | term + term | term − term
-term:       factor | factor * factor | factor / factor
-factor:     number | ( expression ) | + factor | − factor
-
-https://en.wikipedia.org/wiki/Left_recursion
-*/

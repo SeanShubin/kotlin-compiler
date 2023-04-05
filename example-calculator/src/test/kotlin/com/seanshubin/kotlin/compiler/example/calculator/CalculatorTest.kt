@@ -39,7 +39,6 @@ class CalculatorTest {
     @Test
     fun chainMinus(){
         val expression = "12 - 2 - 3"
-        ExpressionTopParser.parseSuccess("expression", expression).toLines().forEach(::println)
         val expected = 7
         val actual = Calculator.eval(expression)
         assertEquals(expected, actual)
