@@ -43,7 +43,19 @@ object ExpressionParserRepository {
     val factor = OneOfParser<Token>(
         "factor",
         "number",
-        "expression-in-parenthesis"
+        "expression-in-parenthesis",
+        "positive",
+        "negative"
+    )
+    val positive = SequenceParser<Token>(
+        "positive",
+        "plus-operator",
+        "factor"
+    )
+    val negative = SequenceParser<Token>(
+        "negative",
+        "minus-operator",
+        "factor"
     )
     val timesOperator = ValueOfParser<Token>("times-operator", Token.Times)
     val number = TypeOfParser<Token>("number", Token.Number::class.java)
@@ -73,11 +85,15 @@ object ExpressionParserRepository {
         openParen,
         closeParen,
         divideOperator,
-        minusOperator
+        minusOperator,
+        positive,
+        negative
     ).associateBy { it.name }
 }
 /*
 expression: term | term + term | term − term
 term:       factor | factor * factor | factor / factor
 factor:     number | ( expression ) | + factor | − factor
- */
+
+https://en.wikipedia.org/wiki/Left_recursion
+*/

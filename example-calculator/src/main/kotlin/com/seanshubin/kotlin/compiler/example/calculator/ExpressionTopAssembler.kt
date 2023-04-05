@@ -1,13 +1,11 @@
 package com.seanshubin.kotlin.compiler.example.calculator
 
-import com.seanshubin.kotlin.compiler.domain.Assembler
 import com.seanshubin.kotlin.compiler.domain.ParseResult
 import com.seanshubin.kotlin.compiler.domain.TopAssembler
 import com.seanshubin.kotlin.compiler.domain.Tree
-import com.seanshubin.kotlin.compiler.example.calculator.TokenCompiler.toTokenCursor
 
 object ExpressionTopAssembler : TopAssembler<Token, Expression> {
-    fun eval(s:String):Expression {
+    fun assemble(s:String):Expression {
         when(val result = ExpressionTopParser.parse("expression", s)){
             is ParseResult.Success -> {
                 return assemble(result.tree)

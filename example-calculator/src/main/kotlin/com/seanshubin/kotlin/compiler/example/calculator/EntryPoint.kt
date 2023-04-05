@@ -2,7 +2,6 @@ package com.seanshubin.kotlin.compiler.example.calculator
 
 import com.seanshubin.kotlin.compiler.example.calculator.TokenCompiler.toTokenCursor
 import com.seanshubin.kotlin.compiler.domain.ParseResult
-import com.seanshubin.kotlin.compiler.example.calculator.ExpressionCompiler.toExpressionCursor
 
 object EntryPoint {
     @JvmStatic
@@ -26,12 +25,12 @@ object EntryPoint {
     private fun complexSample(){
         val input = "((1 + 2) * 3 + 8 / (3 + 1) - 1) / 5 - 1"
         ExpressionTopParser.parse("expression", input).toLines().forEach(::println)
-        val result = ExpressionTopAssembler.eval(input)
+        val result = ExpressionTopAssembler.assemble(input)
         println(result.eval())
     }
     private fun factorSample(){
         val input = "2 * 3 * 4 / 2 * 5 / 3"
-        val result = ExpressionTopAssembler.eval(input)
+        val result = ExpressionTopAssembler.assemble(input)
         println(result)
     }
 }
